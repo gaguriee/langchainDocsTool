@@ -5,7 +5,6 @@ from langchain_core.output_parsers import JsonOutputParser
 from pydantic import BaseModel, Field
 from typing import List
 
-# 데이터 모델 정의
 class RequestParam(BaseModel):
     속성: str = Field(description="요청 파라미터의 속성 이름")
     설명: str = Field(description="요청 파라미터의 설명")
