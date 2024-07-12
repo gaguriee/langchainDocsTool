@@ -7,15 +7,15 @@ from typing import List
 
 class RequestParam(BaseModel):
     속성: str = Field(description="요청 파라미터의 속성 이름")
-    설명: str = Field(description="요청 파라미터의 설명")
-    필수여부: str = Field(description="요청 파라미터의 필수 여부 (필수, 선택, 조건부 필수)")
+    설명: str = Field(description="요청 파라미터의 속성에 대한 설명, markdown format")
+    필수여부: str = Field(description="요청 파라미터의 속성 필수 여부 (필수, 선택, 조건부 필수)")
 
 class RequestParamList(BaseModel):
     params: List[RequestParam] = Field(description="요청 파라미터 목록")
 
 class ResponseStructure(BaseModel):
     속성: str = Field(description="응답 구조의 속성 이름")
-    설명: str = Field(description="응답 구조의 설명")
+    설명: str = Field(description="응답 구조의 속성에 대한 설명, markdown format")
 
 class ResponseStructureList(BaseModel):
     structures: List[ResponseStructure] = Field(description="응답 구조 목록")
@@ -24,6 +24,8 @@ class IntegrationAPI(BaseModel):
     제공자: str = Field(description="외부 API의 제공자")
     명칭: str = Field(description="외부 API의 명칭")
     식별자: str = Field(description="외부 API의 식별자")
+    설명: str = Field(description="외부 API에 대한 간단한 설명, markdown format")
+    url: str = Field(description="외부 API의 url")
 
 class IntegrationAPIList(BaseModel):
     apis: List[IntegrationAPI] = Field(description="List of integrated external APIs")
@@ -67,15 +69,11 @@ Describe without direct code references. Write in Korean. Return the result in J
 )
 
 processing_details_prompt_template = PromptTemplate.from_template("""
-Analyze the provided source code and briefly describe the processing details.
+Briefly describe the processing contents.
 
 Source code: {source_codes}
 
-Describe without direct code references. Do not use markdown format. Write in Korean. Be sure to include the following details:
-- Functionality it provides
-- Data received as input and data returned as output
-- A brief explanation of the internal logic
-- Details on sorting and pagination
+Describe without direct code references. Use markdown format. Write in Korean. 
 """)
 
 integration_apis_prompt_template = PromptTemplate(
@@ -85,7 +83,7 @@ Analyze the provided source code and list any external APIs it integrates with.
 Source code: {source_codes}
 
 List all integrated external APIs.
-apis: 제공자, 명칭, 식별자
+apis: 제공자, 명칭, 식별자, 설명, url
 
 Describe without direct code references. Write in Korean. Return the result in JSON format.
 {format_instructions}

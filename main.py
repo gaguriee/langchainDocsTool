@@ -1,3 +1,4 @@
+import time
 import json
 import asyncio
 from extractor import extract_parameters
@@ -10,9 +11,16 @@ with open('source_codes.json', 'r') as f:
 
 async def main():
     load_dotenv()
-    logging.langsmith("langchainDocTool")
+    logging.langsmith("LDT")
+    
+    start_time = time.time()
+    
     request_params, response_structure, processing_details, integration_apis = await extract_parameters(source_codes)
     generate_markdown(request_params, response_structure, processing_details, integration_apis)
+    
+    end_time = time.time()
+    total_time = end_time - start_time
+    print(f"총 소요 시간: {total_time:.2f}초")
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -18,7 +18,7 @@ def generate_markdown(request_params, response_structure, processing_details, in
     if integration_apis_json['apis'] and len(integration_apis_json['apis']) > 0:
         integration_table = ""
         for api in integration_apis_json['apis']:
-            integration_table += f"{api['제공자']} > {api['명칭']} ({api['식별자']})\n"
+            integration_table += f"{api['제공자']} > {api['명칭']} ({api['식별자']}) - {api['설명']} ({api['url']})\n"
     else:
         integration_table = "없음"
 
